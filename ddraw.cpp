@@ -1,6 +1,10 @@
 #include <windows.h>
 #include <detours.h>
 #include "dedit.h"
+#include <imagehlp.h>
+#pragma comment( lib, "imagehlp.lib" )
+
+int fileChecksum;
 
 struct ddraw_dll { 
 	HMODULE dll;
@@ -109,26 +113,30 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 
 void HookFunctions()
 {
-	static bool once = true; if (once) {
-		once = false;
+	if (fileChecksum != 0)
+	{
+		static bool once = true; if (once) {
+			once = false;
 
-		CheckTextureSize_Original = (_CheckTextureSize)(checkTextureFunctionOffset);
-		DetourTransactionBegin();
-		DetourUpdateThread(GetCurrentThread());
-		DetourAttach(&(PVOID&)CheckTextureSize_Original, CheckTextureSize_New);
-		if (DetourTransactionCommit() == NO_ERROR)
-		{
-			OutputDebugStringA("Successfully detoured function\n");
-		}
-		else
-		{
-			OutputDebugStringA("Could not detour function!\n");
+			CheckTextureSize_Original = (_CheckTextureSize)(GetAddressOffset(fileChecksum));
+			DetourTransactionBegin();
+			DetourUpdateThread(GetCurrentThread());
+			DetourAttach(&(PVOID&)CheckTextureSize_Original, CheckTextureSize_New);
+			if (DetourTransactionCommit() == NO_ERROR)
+			{
+				OutputDebugStringA("Successfully detoured function\n");
+			}
+			else
+			{
+				OutputDebugStringA("Could not detour function!\n");
+			}
 		}
 	}
 }
 
 void InitializeDLL()
 {
+	GetFileChecksum();
 	//Do things here
 	HookFunctions();
 }
@@ -145,4 +153,36 @@ signed int __cdecl CheckTextureSize_New(int a1)
 	}
 	return 1;
 
+}
+
+void GetFileChecksum()
+{
+	char buffer[MAX_PATH];
+	GetModuleFileNameA(NULL, buffer, MAX_PATH);
+	std::string::size_type pos = std::string(buffer).find_last_of("\\/");
+
+	PDWORD header = (PDWORD)malloc(sizeof(PDWORD));
+	PDWORD check = (PDWORD)malloc(sizeof(PDWORD));
+
+	if (header != nullptr && check != nullptr)
+	{
+		MapFileAndCheckSum(buffer, header, check);
+	}
+
+	if(check != nullptr)
+		fileChecksum = *check;
+	free(header);
+	free(check);
+}
+
+int GetAddressOffset(int checksum)
+{
+	for (size_t i = 0; i < gameCount; i++)
+	{
+		if (checksum == DEditVersions[i])
+		{
+			return DEditAddresses[i];
+		}
+	}
+	return 0;
 }
