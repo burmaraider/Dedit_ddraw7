@@ -179,7 +179,7 @@ int GetAddressOffset(int checksum)
 {
 	for (size_t i = 0; i < gameCount; i++)
 	{
-		if (checksum == DEditVersions[i])
+		if (checksum == DEditChecksums[i])
 		{
 			return DEditAddresses[i];
 		}

@@ -11,6 +11,8 @@ Global
 		AVP2 - Debug|x86 = AVP2 - Debug|x86
 		Blood2 - Debug|x64 = Blood2 - Debug|x64
 		Blood2 - Debug|x86 = Blood2 - Debug|x86
+		KISS - Debug|x64 = KISS - Debug|x64
+		KISS - Debug|x86 = KISS - Debug|x86
 		NOLF - Debug|x64 = NOLF - Debug|x64
 		NOLF - Debug|x86 = NOLF - Debug|x86
 		Release|x64 = Release|x64
@@ -25,6 +27,10 @@ Global
 		{C846D092-258B-408E-B802-2EE4643EACD8}.Blood2 - Debug|x64.Build.0 = Blood2 - Debug|x64
 		{C846D092-258B-408E-B802-2EE4643EACD8}.Blood2 - Debug|x86.ActiveCfg = Blood2 - Debug|Win32
 		{C846D092-258B-408E-B802-2EE4643EACD8}.Blood2 - Debug|x86.Build.0 = Blood2 - Debug|Win32
+		{C846D092-258B-408E-B802-2EE4643EACD8}.KISS - Debug|x64.ActiveCfg = KISS - Debug|x64
+		{C846D092-258B-408E-B802-2EE4643EACD8}.KISS - Debug|x64.Build.0 = KISS - Debug|x64
+		{C846D092-258B-408E-B802-2EE4643EACD8}.KISS - Debug|x86.ActiveCfg = KISS - Debug|Win32
+		{C846D092-258B-408E-B802-2EE4643EACD8}.KISS - Debug|x86.Build.0 = KISS - Debug|Win32
 		{C846D092-258B-408E-B802-2EE4643EACD8}.NOLF - Debug|x64.ActiveCfg = NOLF - Debug|x64
 		{C846D092-258B-408E-B802-2EE4643EACD8}.NOLF - Debug|x64.Build.0 = NOLF - Debug|x64
 		{C846D092-258B-408E-B802-2EE4643EACD8}.NOLF - Debug|x86.ActiveCfg = NOLF - Debug|Win32
